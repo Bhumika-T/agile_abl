@@ -67,7 +67,10 @@
       </div>
 
       <div class="field field-span">
-        <label for="address">Address</label>
+        <div class="label-row">
+          <label for="address">Address</label>
+          <span class="char-count" data-counter-for="address">0/255</span>
+        </div>
         <textarea id="address" name="address" rows="3" maxlength="255" autocomplete="street-address"
                   {% if errors.address %}aria-invalid="true" aria-describedby="address_error"{% endif %}>{{ form.get('address', member.address if member else '') }}</textarea>
         {% if errors.address %}<p class="field-error" id="address_error">{{ errors.address }}</p>{% endif %}

@@ -9,7 +9,12 @@
     <h1>Members</h1>
     <p class="muted">Everyone registered with the library, in one directory.</p>
   </div>
-  <a class="btn btn-primary" href="{{ url_for('members.register') }}">Register member</a>
+  <a class="btn btn-primary" href="{{ url_for('members.register') }}">
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <path d="M12 5v14M5 12h14"/>
+    </svg>
+    Register member
+  </a>
 </div>
 
 <div class="toolbar">
@@ -33,6 +38,15 @@
     <button class="btn btn-ghost" type="submit">Search</button>
   </form>
 </div>
+
+{% if q or status != "All" %}
+  <p class="result-note">
+    {{ members|length }} member{{ "" if members|length == 1 else "s" }}
+    {% if q %} matching &ldquo;{{ q }}&rdquo;{% endif %}
+    {% if status != "All" %} &middot; {{ status }}{% endif %}
+    &middot; <a href="{{ url_for('members.list_members') }}">Clear filters</a>
+  </p>
+{% endif %}
 
 <div class="card table-card">
   {% if members %}
@@ -83,6 +97,13 @@
     </div>
   {% else %}
     <div class="empty-state">
+      <span class="empty-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M19 8v6M22 11h-6"/>
+        </svg>
+      </span>
       <h3>No members found</h3>
       {% if q %}
         <p>Nothing matches &ldquo;{{ q }}&rdquo;. Try a different name, email or member code.</p>

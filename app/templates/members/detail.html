@@ -14,7 +14,12 @@
     <span class="avatar avatar-lg" aria-hidden="true">{{ member.initials }}</span>
     <div class="profile-title">
       <h1>{{ member.full_name }}</h1>
-      <p class="muted">{{ member.member_code }} &middot; {{ member.membership_type }} member</p>
+      <p class="profile-sub muted">
+        <span class="member-code">{{ member.member_code }}</span>
+        <span aria-hidden="true">&middot;</span>
+        <span>{{ member.membership_type }} member</span>
+        <button type="button" class="code-copy" data-copy="{{ member.member_code }}" aria-label="Copy membership code">Copy code</button>
+      </p>
     </div>
     <span class="status-pill {{ 'status-active' if member.status == 'Active' else 'status-inactive' }}">
       {{ member.status }}

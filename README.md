@@ -40,6 +40,9 @@ so the member, book and lending modules stay independent inside a single deploya
 - Edit member details; the membership code never changes.
 - Responsive screens verified at tablet (~860 px) and mobile widths, with a
   `prefers-reduced-motion` fallback for animation-sensitive users.
+- Refined, accessible interface: gradient accents, hover/focus states, copy-to-clipboard
+  membership codes, dismissible flash messages, form submit feedback and a live
+  character counter. Entrance/hover motion only runs when `prefers-reduced-motion` allows it.
 
 ### Routes
 
