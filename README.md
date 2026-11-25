@@ -12,7 +12,7 @@ demonstrates that collaborative workflow end to end.
 
 | Module | Branch | Owner | Status |
 | --- | --- | --- | --- |
-| Member Registration | `feature/member-registration` | Bhumika T | Delivered |
+| Member Registration | `feature/member-registration` | Bhumika T | Implemented |
 | Book Management | `feature/book-management` | Team member 2 | Planned |
 | Issue & Return | `feature/issue-return` | Team member 3 | Planned |
 
