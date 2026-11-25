@@ -26,7 +26,7 @@
     <a class="stat-card" href="{{ url_for('members.list_members', status='Active') }}">
       <span class="stat-label">Active</span>
       <span class="stat-value">{{ member_counts.active }}</span>
-      <span class="stat-note">Currently borrowing</span>
+      <span class="stat-note">Eligible to borrow</span>
     </a>
     <a class="stat-card" href="{{ url_for('members.list_members', status='Inactive') }}">
       <span class="stat-label">Inactive</span>
