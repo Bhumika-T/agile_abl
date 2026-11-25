@@ -12,6 +12,35 @@
   </p>
 </section>
 
+<section class="section" id="members">
+  <div class="section-head">
+    <h2>Library at a glance</h2>
+    <span class="muted">1 of 3 modules live</span>
+  </div>
+  <div class="stats-row">
+    <a class="stat-card" href="{{ url_for('members.list_members') }}">
+      <span class="stat-label">Total members</span>
+      <span class="stat-value">{{ member_counts.total }}</span>
+      <span class="stat-note">Open member directory</span>
+    </a>
+    <a class="stat-card" href="{{ url_for('members.list_members', status='Active') }}">
+      <span class="stat-label">Active</span>
+      <span class="stat-value">{{ member_counts.active }}</span>
+      <span class="stat-note">Currently borrowing</span>
+    </a>
+    <a class="stat-card" href="{{ url_for('members.list_members', status='Inactive') }}">
+      <span class="stat-label">Inactive</span>
+      <span class="stat-value">{{ member_counts.inactive }}</span>
+      <span class="stat-note">Membership paused</span>
+    </a>
+    <a class="stat-card" href="{{ url_for('members.register') }}">
+      <span class="stat-label">Next step</span>
+      <span class="stat-value">&plus;</span>
+      <span class="stat-note">Register a member</span>
+    </a>
+  </div>
+</section>
+
 <section class="section" id="modules">
   <div class="section-head">
     <h2>Modules</h2>
@@ -28,7 +57,10 @@
       </span>
       <h3>Member Registration</h3>
       <p>Register members, keep contact details current and manage membership status.</p>
-      <span class="tag tag-planned">In development</span>
+      <div class="module-foot">
+        <span class="tag tag-live">Live</span>
+        <a class="module-link" href="{{ url_for('members.list_members') }}">Open directory &rarr;</a>
+      </div>
     </article>
 
     <article class="module-card">

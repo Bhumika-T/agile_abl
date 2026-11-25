@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Members &middot; Agile Library{% endblock %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <p class="eyebrow">Member registration</p>
+    <h1>Members</h1>
+    <p class="muted">Everyone registered with the library, in one directory.</p>
+  </div>
+  <a class="btn btn-primary" href="{{ url_for('members.register') }}">Register member</a>
+</div>
+
+<div class="toolbar">
+  <nav class="filter-tabs" aria-label="Filter members by status">
+    <a class="filter-tab {{ 'is-active' if status == 'All' }}" href="{{ url_for('members.list_members', q=q or none) }}">
+      All <span class="count">{{ stats.total }}</span>
+    </a>
+    <a class="filter-tab {{ 'is-active' if status == 'Active' }}" href="{{ url_for('members.list_members', status='Active', q=q or none) }}">
+      Active <span class="count">{{ stats.active }}</span>
+    </a>
+    <a class="filter-tab {{ 'is-active' if status == 'Inactive' }}" href="{{ url_for('members.list_members', status='Inactive', q=q or none) }}">
+      Inactive <span class="count">{{ stats.inactive }}</span>
+    </a>
+  </nav>
+
+  <form class="search-form" method="get" action="{{ url_for('members.list_members') }}" role="search">
+    {% if status in ("Active", "Inactive") %}
+      <input type="hidden" name="status" value="{{ status }}">
+    {% endif %}
+    <input type="search" name="q" value="{{ q }}" placeholder="Search name, email or code" aria-label="Search members">
+    <button class="btn btn-ghost" type="submit">Search</button>
+  </form>
+</div>
+
+<div class="card table-card">
+  {% if members %}
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th scope="col">Member</th>
+            <th scope="col">Contact</th>
+            <th scope="col">Type</th>
+            <th scope="col">Joined</th>
+            <th scope="col">Status</th>
+            <th scope="col" class="cell-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for member in members %}
+            <tr>
+              <td>
+                <div class="member-cell">
+                  <span class="avatar" aria-hidden="true">{{ member.initials }}</span>
+                  <div>
+                    <a class="member-name" href="{{ url_for('members.detail', member_id=member.id) }}">{{ member.full_name }}</a>
+                    <span class="member-code">{{ member.member_code }}</span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="contact-cell">
+                  <a href="mailto:{{ member.email }}">{{ member.email }}</a>
+                  <span class="muted">{{ member.phone }}</span>
+                </div>
+              </td>
+              <td>{{ member.membership_type }}</td>
+              <td class="nowrap">{{ member.joined_on.strftime("%d %b %Y") }}</td>
+              <td>
+                <span class="status-pill {{ 'status-active' if member.status == 'Active' else 'status-inactive' }}">
+                  {{ member.status }}
+                </span>
+              </td>
+              <td class="cell-right">
+                <a class="btn btn-ghost btn-sm" href="{{ url_for('members.detail', member_id=member.id) }}">View</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <h3>No members found</h3>
+      {% if q %}
+        <p>Nothing matches &ldquo;{{ q }}&rdquo;. Try a different name, email or member code.</p>
+      {% else %}
+        <p>Register the first member to start building the directory.</p>
+      {% endif %}
+      <a class="btn btn-primary" href="{{ url_for('members.register') }}">Register member</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

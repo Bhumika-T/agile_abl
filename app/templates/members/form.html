@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% set is_edit = mode == "edit" %}
+
+{% block title %}{{ "Edit member" if is_edit else "Register member" }} &middot; Agile Library{% endblock %}
+
+{% block content %}
+<div class="narrow">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="{{ url_for('members.list_members') }}">Members</a>
+    <span aria-hidden="true">/</span>
+    {% if is_edit %}
+      <a href="{{ url_for('members.detail', member_id=member.id) }}">{{ member.member_code }}</a>
+      <span aria-hidden="true">/</span>
+      <span>Edit</span>
+    {% else %}
+      <span>Register</span>
+    {% endif %}
+  </nav>
+
+  <p class="eyebrow">Member registration</p>
+  <h1>{{ "Edit member" if is_edit else "Register a new member" }}</h1>
+  <p class="muted">
+    {% if is_edit %}
+      Update {{ member.full_name }}&rsquo;s details. The membership code {{ member.member_code }} stays the same.
+    {% else %}
+      A unique membership code is generated automatically when the member is saved.
+    {% endif %}
+  </p>
+
+  <form class="card form-card" method="post"
+        action="{{ url_for('members.edit', member_id=member.id) if is_edit else url_for('members.register') }}">
+    <div class="field-grid">
+      <div class="field field-span">
+        <label for="full_name">Full name <span class="req" aria-hidden="true">*</span></label>
+        <input id="full_name" name="full_name" type="text" maxlength="120" required autocomplete="name"
+               value="{{ form.get('full_name', member.full_name if member else '') }}"
+               {% if errors.full_name %}aria-invalid="true" aria-describedby="full_name_error"{% endif %}>
+        {% if errors.full_name %}<p class="field-error" id="full_name_error">{{ errors.full_name }}</p>{% endif %}
+      </div>
+
+      <div class="field">
+        <label for="email">Email <span class="req" aria-hidden="true">*</span></label>
+        <input id="email" name="email" type="email" maxlength="120" required autocomplete="email"
+               value="{{ form.get('email', member.email if member else '') }}"
+               {% if errors.email %}aria-invalid="true" aria-describedby="email_error"{% endif %}>
+        {% if errors.email %}<p class="field-error" id="email_error">{{ errors.email }}</p>{% endif %}
+      </div>
+
+      <div class="field">
+        <label for="phone">Phone <span class="req" aria-hidden="true">*</span></label>
+        <input id="phone" name="phone" type="tel" maxlength="20" required autocomplete="tel" inputmode="tel"
+               value="{{ form.get('phone', member.phone if member else '') }}"
+               {% if errors.phone %}aria-invalid="true" aria-describedby="phone_error"{% endif %}>
+        {% if errors.phone %}<p class="field-error" id="phone_error">{{ errors.phone }}</p>{% endif %}
+      </div>
+
+      <div class="field field-span">
+        <label for="membership_type">Membership type <span class="req" aria-hidden="true">*</span></label>
+        {% set selected_type = form.get('membership_type', member.membership_type if member else 'Student') %}
+        <select id="membership_type" name="membership_type" required>
+          {% for option in membership_types %}
+            <option value="{{ option }}" {% if selected_type == option %}selected{% endif %}>{{ option }}</option>
+          {% endfor %}
+        </select>
+        {% if errors.membership_type %}<p class="field-error">{{ errors.membership_type }}</p>{% endif %}
+      </div>
+
+      <div class="field field-span">
+        <label for="address">Address</label>
+        <textarea id="address" name="address" rows="3" maxlength="255" autocomplete="street-address"
+                  {% if errors.address %}aria-invalid="true" aria-describedby="address_error"{% endif %}>{{ form.get('address', member.address if member else '') }}</textarea>
+        {% if errors.address %}<p class="field-error" id="address_error">{{ errors.address }}</p>{% endif %}
+      </div>
+    </div>
+
+    <p class="form-note">Fields marked <span class="req">*</span> are required.</p>
+
+    <div class="form-actions">
+      <button class="btn btn-primary" type="submit">{{ "Save changes" if is_edit else "Register member" }}</button>
+      <a class="btn btn-ghost"
+         href="{{ url_for('members.detail', member_id=member.id) if is_edit else url_for('members.list_members') }}">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

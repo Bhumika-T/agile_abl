@@ -22,10 +22,11 @@
         <span class="brand-name">Agile <strong>Library</strong></span>
       </a>
       <nav class="nav" aria-label="Primary">
-        <a class="nav-link is-active" href="{{ url_for('main.index') }}">Dashboard</a>
-        <span class="nav-link nav-link-soon">Members <span class="tag">soon</span></span>
+        <a class="nav-link {{ 'is-active' if request.endpoint == 'main.index' }}" href="{{ url_for('main.index') }}">Dashboard</a>
+        <a class="nav-link {{ 'is-active' if request.endpoint and request.endpoint.startswith('members.') }}" href="{{ url_for('members.list_members') }}">Members</a>
         <span class="nav-link nav-link-soon">Books <span class="tag">soon</span></span>
         <span class="nav-link nav-link-soon">Issue &amp; Return <span class="tag">soon</span></span>
+        <a class="btn btn-primary btn-sm" href="{{ url_for('members.register') }}">Register member</a>
       </nav>
     </div>
   </header>
