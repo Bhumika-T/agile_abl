@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Agile Library{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="{{ url_for('main.index') }}">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            <path d="M9 7h7M9 11h5"/>
+          </svg>
+        </span>
+        <span class="brand-name">Agile <strong>Library</strong></span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a class="nav-link is-active" href="{{ url_for('main.index') }}">Dashboard</a>
+        <span class="nav-link nav-link-soon">Members <span class="tag">soon</span></span>
+        <span class="nav-link nav-link-soon">Books <span class="tag">soon</span></span>
+        <span class="nav-link nav-link-soon">Issue &amp; Return <span class="tag">soon</span></span>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flash-stack">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}" role="status">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer container">
+    <span>Library Management System &middot; Agile team project</span>
+    <span>Member registration module in progress</span>
+  </footer>
+</body>
+</html>

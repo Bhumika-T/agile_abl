@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard &middot; Agile Library{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <p class="eyebrow">Agile Library &middot; Team project</p>
+  <h1>A library system built one module at a time.</h1>
+  <p class="lede">
+    Books, members and lending are developed on separate Git branches, reviewed through
+    pull requests and merged into a single Flask application.
+  </p>
+</section>
+
+<section class="section" id="modules">
+  <div class="section-head">
+    <h2>Modules</h2>
+    <span class="muted">Each module is owned by one team member</span>
+  </div>
+  <div class="module-grid">
+    <article class="module-card">
+      <span class="module-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </span>
+      <h3>Member Registration</h3>
+      <p>Register members, keep contact details current and manage membership status.</p>
+      <span class="tag tag-planned">In development</span>
+    </article>
+
+    <article class="module-card">
+      <span class="module-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+      </span>
+      <h3>Book Management</h3>
+      <p>Catalogue titles, track copies and keep shelf availability up to date.</p>
+      <span class="tag tag-planned">Planned</span>
+    </article>
+
+    <article class="module-card">
+      <span class="module-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12a9 9 0 1 1-9-9"/>
+          <path d="M21 3 12 12"/>
+          <path d="M15 3h6v6"/>
+        </svg>
+      </span>
+      <h3>Issue &amp; Return</h3>
+      <p>Lend copies to registered members, record returns and overdue items.</p>
+      <span class="tag tag-planned">Planned</span>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="callout">
+    <h2>Branch-based workflow</h2>
+    <p>
+      The scaffold lives on <code>main</code>. Every module lands through its own
+      feature branch and pull request, so changes stay reviewable and merge conflicts
+      surface before they reach the shared branch.
+    </p>
+  </div>
+</section>
+{% endblock %}
