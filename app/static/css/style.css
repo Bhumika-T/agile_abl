@@ -212,34 +212,6 @@ code {
   color: var(--primary-strong);
 }
 
-.nav-link-soon {
-  opacity: 0.75;
-  cursor: default;
-}
-
-.tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: var(--surface-muted);
-  color: var(--ink-soft);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-}
-
-.tag-planned {
-  background: var(--accent-soft);
-  color: var(--accent);
-}
-
-.tag-live {
-  background: var(--success-soft);
-  color: var(--success);
-}
-
 /* ---------- buttons ---------- */
 
 .btn {
@@ -492,99 +464,9 @@ code {
   font-size: 0.92rem;
 }
 
-.module-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-@media (max-width: 860px) {
-  .module-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.module-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-  box-shadow: var(--shadow-sm);
-}
-
-.module-card.is-live {
-  border-color: rgba(67, 56, 202, 0.28);
-}
-
-.module-card.is-live::before {
-  content: "";
-  position: absolute;
-  inset: -1px -1px auto;
-  height: 3px;
-  border-radius: var(--radius) var(--radius) 0 0;
-  background: linear-gradient(90deg, #4338ca, #5b21b6);
-}
-
-.module-icon {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  margin-bottom: 6px;
-  border-radius: 12px;
-  background: var(--primary-soft);
-  color: var(--primary);
-}
-
-.is-live .module-icon {
-  background: linear-gradient(135deg, #4f46e5, #5b21b6);
-  color: #fff;
-  box-shadow: 0 10px 20px -12px rgba(67, 56, 202, 0.65);
-}
-
-.module-card p {
-  margin-bottom: 10px;
-  color: var(--ink-soft);
-  font-size: 0.94rem;
-}
-
-.module-card .tag {
-  align-self: flex-start;
-  margin-top: auto;
-}
-
-.module-card .module-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: auto;
-  padding-top: 10px;
-}
-
-.module-link {
+.section-link {
   font-size: 0.9rem;
   font-weight: 600;
-}
-
-.callout {
-  padding: 22px 24px;
-  border: 1px dashed #c9cede;
-  border-radius: var(--radius);
-  background: linear-gradient(135deg, var(--surface), #f8f7ff);
-}
-
-.callout h2 {
-  font-size: 1.1rem;
-}
-
-.callout p {
-  margin-bottom: 0;
-  color: var(--ink-soft);
 }
 
 /* ---------- flash messages ---------- */
@@ -1104,6 +986,57 @@ textarea[aria-invalid="true"] {
   color: var(--ink-soft);
 }
 
+/* recent members */
+
+.recent-card {
+  overflow: hidden;
+}
+
+.recent-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recent-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.recent-item:last-child {
+  border-bottom: none;
+}
+
+.recent-item:hover {
+  background: #fafbff;
+}
+
+.recent-id {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 150px;
+}
+
+.recent-meta {
+  min-width: 90px;
+}
+
+.recent-item .status-pill {
+  margin-left: auto;
+}
+
+@media (max-width: 640px) {
+  .recent-meta,
+  .recent-item .nowrap {
+    display: none;
+  }
+}
+
 /* forms */
 
 .narrow {
@@ -1383,23 +1316,8 @@ textarea[aria-invalid="true"] {
     animation-delay: 0.15s;
   }
 
-  .module-card {
-    animation: rise 0.45s ease-out both;
-    transition: transform 0.18s ease, box-shadow 0.18s ease,
-      border-color 0.18s ease;
-  }
-
-  .module-grid .module-card:nth-child(2) {
-    animation-delay: 0.06s;
-  }
-
-  .module-grid .module-card:nth-child(3) {
-    animation-delay: 0.12s;
-  }
-
-  .module-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-md);
+  .section-link {
+    transition: color 0.15s ease;
   }
 
   .data-table tbody tr {
@@ -1428,6 +1346,18 @@ textarea[aria-invalid="true"] {
 
   .data-table tbody tr:nth-child(7) {
     animation-delay: 0.18s;
+  }
+
+  .recent-item {
+    animation: fade-in 0.35s ease-out both;
+  }
+
+  .recent-list .recent-item:nth-child(2) {
+    animation-delay: 0.05s;
+  }
+
+  .recent-list .recent-item:nth-child(3) {
+    animation-delay: 0.1s;
   }
 
   .hero-tile {

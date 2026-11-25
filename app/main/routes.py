@@ -12,4 +12,9 @@ def index():
         "active": Member.query.filter_by(status="Active").count(),
         "inactive": Member.query.filter_by(status="Inactive").count(),
     }
-    return render_template("index.html", member_counts=member_counts)
+    recent_members = (
+        Member.query.order_by(Member.joined_on.desc(), Member.id.desc()).limit(3).all()
+    )
+    return render_template(
+        "index.html", member_counts=member_counts, recent_members=recent_members
+    )
