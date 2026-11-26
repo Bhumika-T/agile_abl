@@ -1,0 +1,61 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Book Management</h1>
+
+    <a href="{{ url_for('books.add_book') }}">
+        Add New Book
+    </a>
+
+    <form method="GET">
+        <input
+            type="text"
+            name="q"
+            placeholder="Search books..."
+            value="{{ q }}"
+        >
+        <button type="submit">Search</button>
+    </form>
+
+    {% if books %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Book Code</th>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Total Copies</th>
+                    <th>Available Copies</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <td>{{ book.book_code }}</td>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.isbn }}</td>
+                    <td>{{ book.total_copies }}</td>
+                    <td>{{ book.available_copies }}</td>
+                    <td>
+                        <a href="{{ url_for('books.detail', book_id=book.id) }}">View</a>
+                        <a href="{{ url_for('books.edit_book', book_id=book.id) }}">Edit</a>
+                        <form method="POST"
+                              action="{{ url_for('books.delete_book', book_id=book.id) }}">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No books found.</p>
+    {% endif %}
+</div>
+{% endblock %}
