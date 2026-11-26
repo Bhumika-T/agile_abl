@@ -60,12 +60,12 @@ class Book(db.Model):
     total_copies = db.Column(db.Integer, nullable=False, default=1)
     available_copies = db.Column(db.Integer, nullable=False, default=1)
 
-        created_at = db.Column(
+    created_at = db.Column(
         db.DateTime, nullable=False, default=datetime.utcnow
         )
 
 
-       __table_args__ = (
+    __table_args__ = (
         db.CheckConstraint(
             "total_copies >= 0",
             name="ck_books_total_copies"
