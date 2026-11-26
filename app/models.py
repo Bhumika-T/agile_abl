@@ -44,4 +44,65 @@ class Member(db.Model):
             current = int(last.member_code.split("-")[1])
         except (IndexError, ValueError):
             current = cls.query.count()
-        return f"MEM-{current + 1:04d}"
+        return f"MEM-{current + 1:04d}" 
+
+
+class Book(db.Model):
+    __tablename__ = "books"
+
+    id = db.Column(db.Integer, primary_key=True)
+    book_code = db.Column(db.String(12), unique=True, nullable=False)
+    title = db.Column(db.String(150), nullable=False, index=True)
+    author = db.Column(db.String(120), nullable=False)
+    isbn = db.Column(db.String(20), unique=True, nullable=False)
+    publisher = db.Column(db.String(120), nullable=False, default="")
+    category = db.Column(db.String(80), nullable=False, default="")
+    total_copies = db.Column(db.Integer, nullable=False, default=1)
+    available_copies = db.Column(db.Integer, nullable=False, default=1)
+
+    created_at = db.Column(
+        db.DateTime, nullable=False, default=datetime.utcnow
+        )
+
+
+    __table_args__ = (
+        db.CheckConstraint(
+            "total_copies >= 0",
+            name="ck_books_total_copies"
+        ),
+        db.CheckConstraint(
+            "available_copies >= 0 AND available_copies <= total_copies",
+            name="ck_books_available_copies"
+        ),
+       )
+
+
+    @classmethod
+    def next_book_code(cls):
+        last = cls.query.order_by(cls.id.desc()).first()
+
+        if last is None:
+            return "BOOK-0001"
+
+        try:
+            current = int(last.book_code.split("-")[1])
+        except (IndexError, ValueError):
+            current = cls.query.count()
+
+        return f"BOOK-{current + 1:04d}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

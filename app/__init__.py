@@ -15,9 +15,13 @@ def create_app(test_config=None):
 
     from .main.routes import bp as main_bp
     from .members.routes import bp as members_bp
+    from .books.routes import bp as books_bp
+
 
     app.register_blueprint(main_bp)
     app.register_blueprint(members_bp)
+    app.register_blueprint(books_bp)
+
 
     with app.app_context():
         db.create_all()

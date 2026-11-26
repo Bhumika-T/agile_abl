@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ "Edit Book" if book else "Add New Book" }}</h1>
+
+    <form method="POST">
+        <div>
+            <label>Title</label>
+            <input type="text" name="title"
+                   value="{{ book.title if book else '' }}" required>
+        </div>
+
+        <div>
+            <label>Author</label>
+            <input type="text" name="author"
+                   value="{{ book.author if book else '' }}" required>
+        </div>
+
+        <div>
+            <label>ISBN</label>
+            <input type="text" name="isbn"
+                   value="{{ book.isbn if book else '' }}" required>
+        </div>
+
+        <div>
+            <label>Publisher</label>
+            <input type="text" name="publisher"
+                   value="{{ book.publisher if book else '' }}">
+        </div>
+
+        <div>
+            <label>Category</label>
+            <input type="text" name="category"
+                   value="{{ book.category if book else '' }}">
+        </div>
+
+        <div>
+            <label>Total Copies</label>
+            <input type="number" name="total_copies"
+                   value="{{ book.total_copies if book else 1 }}" min="0" required>
+        </div>
+
+        <div>
+            <label>Available Copies</label>
+            <input type="number" name="available_copies"
+                   value="{{ book.available_copies if book else 1 }}" min="0" required>
+        </div>
+
+        <button type="submit">Save Book</button>
+        <a href="{{ url_for('books.list_books') }}">Cancel</a>
+    </form>
+</div>
+{% endblock %}
