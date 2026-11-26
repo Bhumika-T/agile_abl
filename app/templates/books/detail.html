@@ -1,0 +1,20 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Book Details</h1>
+
+    <p><strong>Book Code:</strong> {{ book.book_code }}</p>
+    <p><strong>Title:</strong> {{ book.title }}</p>
+    <p><strong>Author:</strong> {{ book.author }}</p>
+    <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+    <p><strong>Publisher:</strong> {{ book.publisher or "N/A" }}</p>
+    <p><strong>Category:</strong> {{ book.category or "N/A" }}</p>
+    <p><strong>Total Copies:</strong> {{ book.total_copies }}</p>
+    <p><strong>Available Copies:</strong> {{ book.available_copies }}</p>
+
+    <a href="{{ url_for('books.edit_book', book_id=book.id) }}">Edit Book</a>
+    <a href="{{ url_for('books.list_books') }}">Back to Book List</a>
+</div>
+{% endblock %}
