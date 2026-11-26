@@ -24,6 +24,7 @@
       <nav class="nav" aria-label="Primary">
         <a class="nav-link {{ 'is-active' if request.endpoint == 'main.index' }}" href="{{ url_for('main.index') }}">Dashboard</a>
         <a class="nav-link {{ 'is-active' if request.endpoint and request.endpoint.startswith('members.') }}" href="{{ url_for('members.list_members') }}">Members</a>
+        <a class="nav-link {{ 'is-active' if request.endpoint and request.endpoint.startswith('books.') }}" href="{{ url_for('books.list_books') }}">Books</a>
         <a class="btn btn-primary btn-sm" href="{{ url_for('members.register') }}">Register member</a>
       </nav>
     </div>
