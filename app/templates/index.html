@@ -1,71 +1,131 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard &middot; Agile Library{% endblock %}
+{% block title %}Dashboard &middot; City Library{% endblock %}
 
 {% block content %}
 <section class="hero">
-  <p class="eyebrow">Agile Library &middot; Team project</p>
-  <h1>A library system built one module at a time.</h1>
+  <p class="eyebrow">Library dashboard</p>
+  <h1>Manage your members in one place.</h1>
   <p class="lede">
-    Books, members and lending are developed on separate Git branches, reviewed through
-    pull requests and merged into a single Flask application.
+    Register new members, keep their contact details current and stay on top of
+    membership status from a single dashboard.
   </p>
+  <div class="hero-actions">
+    <a class="btn btn-light" href="{{ url_for('members.register') }}">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M12 5v14M5 12h14"/>
+      </svg>
+      Register a member
+    </a>
+    <a class="btn btn-outline-light" href="{{ url_for('members.list_members') }}">Browse directory</a>
+  </div>
+  <div class="hero-art" aria-hidden="true">
+    <span class="hero-tile tile-1"></span>
+    <span class="hero-tile tile-2"></span>
+    <span class="hero-tile tile-3"></span>
+    <span class="hero-spark spark-1"></span>
+    <span class="hero-spark spark-2"></span>
+  </div>
 </section>
 
-<section class="section" id="modules">
+<section class="section" id="members">
   <div class="section-head">
-    <h2>Modules</h2>
-    <span class="muted">Each module is owned by one team member</span>
+    <h2>Library at a glance</h2>
+    <span class="muted">Membership overview</span>
   </div>
-  <div class="module-grid">
-    <article class="module-card">
-      <span class="module-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <div class="stats-row">
+    <a class="stat-card" href="{{ url_for('members.list_members') }}">
+      <span class="stat-top">
+        <span class="stat-label">Total members</span>
+        <span class="stat-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+          </svg>
+        </span>
+      </span>
+      <span class="stat-value">{{ member_counts.total }}</span>
+      <span class="stat-note">Open member directory</span>
+    </a>
+    <a class="stat-card" href="{{ url_for('members.list_members', status='Active') }}">
+      <span class="stat-top">
+        <span class="stat-label">Active</span>
+        <span class="stat-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="m8.5 12.4 2.4 2.4 4.6-5"/>
+          </svg>
+        </span>
+      </span>
+      <span class="stat-value">{{ member_counts.active }}</span>
+      <span class="stat-note">Eligible to borrow</span>
+    </a>
+    <a class="stat-card" href="{{ url_for('members.list_members', status='Inactive') }}">
+      <span class="stat-top">
+        <span class="stat-label">Inactive</span>
+        <span class="stat-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+            <circle cx="12" cy="12" r="9"/>
+            <path d="M10 9.5v5M14 9.5v5"/>
+          </svg>
+        </span>
+      </span>
+      <span class="stat-value">{{ member_counts.inactive }}</span>
+      <span class="stat-note">Membership paused</span>
+    </a>
+    <a class="stat-card stat-cta" href="{{ url_for('members.register') }}">
+      <span class="stat-top">
+        <span class="stat-label">Quick action</span>
+        <span class="stat-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+        </span>
+      </span>
+      <span class="stat-value">Register</span>
+      <span class="stat-note">Add a new member</span>
+    </a>
+  </div>
+</section>
+
+<section class="section" id="recent">
+  <div class="section-head">
+    <h2>Recently joined</h2>
+    <a class="section-link" href="{{ url_for('members.list_members') }}">View all members &rarr;</a>
+  </div>
+
+  {% if recent_members %}
+    <div class="card recent-card">
+      <ul class="recent-list">
+        {% for member in recent_members %}
+          <li class="recent-item">
+            <span class="avatar" aria-hidden="true">{{ member.initials }}</span>
+            <div class="recent-id">
+              <a class="member-name" href="{{ url_for('members.detail', member_id=member.id) }}">{{ member.full_name }}</a>
+              <span class="member-code">{{ member.member_code }}</span>
+            </div>
+            <span class="muted recent-meta">{{ member.membership_type }}</span>
+            <span class="muted nowrap">{{ member.joined_on.strftime("%d %b %Y") }}</span>
+            <span class="status-pill {{ 'status-active' if member.status == 'Active' else 'status-inactive' }}">
+              {{ member.status }}
+            </span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% else %}
+    <div class="card empty-state">
+      <span class="empty-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
           <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
           <circle cx="9" cy="7" r="4"/>
-          <path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+          <path d="M19 8v6M22 11h-6"/>
         </svg>
       </span>
-      <h3>Member Registration</h3>
-      <p>Register members, keep contact details current and manage membership status.</p>
-      <span class="tag tag-planned">In development</span>
-    </article>
-
-    <article class="module-card">
-      <span class="module-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-        </svg>
-      </span>
-      <h3>Book Management</h3>
-      <p>Catalogue titles, track copies and keep shelf availability up to date.</p>
-      <span class="tag tag-planned">Planned</span>
-    </article>
-
-    <article class="module-card">
-      <span class="module-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12a9 9 0 1 1-9-9"/>
-          <path d="M21 3 12 12"/>
-          <path d="M15 3h6v6"/>
-        </svg>
-      </span>
-      <h3>Issue &amp; Return</h3>
-      <p>Lend copies to registered members, record returns and overdue items.</p>
-      <span class="tag tag-planned">Planned</span>
-    </article>
-  </div>
-</section>
-
-<section class="section">
-  <div class="callout">
-    <h2>Branch-based workflow</h2>
-    <p>
-      The scaffold lives on <code>main</code>. Every module lands through its own
-      feature branch and pull request, so changes stay reviewable and merge conflicts
-      surface before they reach the shared branch.
-    </p>
-  </div>
+      <h3>No members yet</h3>
+      <p>Register the first member to start building the directory.</p>
+      <a class="btn btn-primary" href="{{ url_for('members.register') }}">Register member</a>
+    </div>
+  {% endif %}
 </section>
 {% endblock %}

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}{{ member.full_name }} &middot; City Library{% endblock %}
+
+{% block content %}
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="{{ url_for('members.list_members') }}">Members</a>
+  <span aria-hidden="true">/</span>
+  <span>{{ member.member_code }}</span>
+</nav>
+
+<div class="card profile-card">
+  <div class="profile-head">
+    <span class="avatar avatar-lg" aria-hidden="true">{{ member.initials }}</span>
+    <div class="profile-title">
+      <h1>{{ member.full_name }}</h1>
+      <p class="profile-sub muted">
+        <span class="member-code">{{ member.member_code }}</span>
+        <span aria-hidden="true">&middot;</span>
+        <span>{{ member.membership_type }} member</span>
+        <button type="button" class="code-copy" data-copy="{{ member.member_code }}" aria-label="Copy membership code">Copy code</button>
+      </p>
+    </div>
+    <span class="status-pill {{ 'status-active' if member.status == 'Active' else 'status-inactive' }}">
+      {{ member.status }}
+    </span>
+    <div class="profile-actions">
+      <a class="btn btn-ghost" href="{{ url_for('members.edit', member_id=member.id) }}">Edit details</a>
+      <form method="post" action="{{ url_for('members.toggle_status', member_id=member.id) }}">
+        <button class="btn {{ 'btn-danger-ghost' if member.status == 'Active' else 'btn-primary' }}" type="submit">
+          {{ "Deactivate" if member.status == "Active" else "Reactivate" }}
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <dl class="detail-grid">
+    <div>
+      <dt>Email</dt>
+      <dd><a href="mailto:{{ member.email }}">{{ member.email }}</a></dd>
+    </div>
+    <div>
+      <dt>Phone</dt>
+      <dd>{{ member.phone }}</dd>
+    </div>
+    <div>
+      <dt>Membership type</dt>
+      <dd>{{ member.membership_type }}</dd>
+    </div>
+    <div>
+      <dt>Joined on</dt>
+      <dd>{{ member.joined_on.strftime("%d %B %Y") }}</dd>
+    </div>
+    <div class="detail-span">
+      <dt>Address</dt>
+      <dd>{{ member.address or "Not provided" }}</dd>
+    </div>
+  </dl>
+</div>
+{% endblock %}

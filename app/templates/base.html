@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Agile Library{% endblock %}</title>
+  <title>{% block title %}City Library{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -19,13 +19,12 @@
             <path d="M9 7h7M9 11h5"/>
           </svg>
         </span>
-        <span class="brand-name">Agile <strong>Library</strong></span>
+        <span class="brand-name">City <strong>Library</strong></span>
       </a>
       <nav class="nav" aria-label="Primary">
-        <a class="nav-link is-active" href="{{ url_for('main.index') }}">Dashboard</a>
-        <span class="nav-link nav-link-soon">Members <span class="tag">soon</span></span>
-        <span class="nav-link nav-link-soon">Books <span class="tag">soon</span></span>
-        <span class="nav-link nav-link-soon">Issue &amp; Return <span class="tag">soon</span></span>
+        <a class="nav-link {{ 'is-active' if request.endpoint == 'main.index' }}" href="{{ url_for('main.index') }}">Dashboard</a>
+        <a class="nav-link {{ 'is-active' if request.endpoint and request.endpoint.startswith('members.') }}" href="{{ url_for('members.list_members') }}">Members</a>
+        <a class="btn btn-primary btn-sm" href="{{ url_for('members.register') }}">Register member</a>
       </nav>
     </div>
   </header>
@@ -45,8 +44,10 @@
   </main>
 
   <footer class="site-footer container">
-    <span>Library Management System &middot; Agile team project</span>
-    <span>Member registration module in progress</span>
+    <span>City Library</span>
+    <span>Member services</span>
   </footer>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
 </body>
 </html>
